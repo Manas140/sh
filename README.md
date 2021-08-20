@@ -3,6 +3,10 @@ Collection Of Sh Scripts I Made
 
 **Preview**
 
+<p align="center">
+  <img src="preview.png">
+</p>
+
 **Programs Included**
 ```
   col             output terminal colors.
