@@ -1,5 +1,32 @@
 #!/usr/bin/bash
 
+welcome() {
+    printf "%s" "\
+
+ _____         _                           _        
+/  __ \       | |                         (_)       
+| /  \/  ___  | |  ___   _ __  _ __  __ _  _  _ __  
+| |     / _ \ | | / _ \ | '__|| '__|/ _\` || || '_ \ 
+| \__/\| (_) || || (_) || |   | |  | (_| || || | | |
+ \____/ \___/ |_| \___/ |_|   |_|   \__,_||_||_| |_|
+                                                    
+    Arguments:
+        rain [string] [speed]
+        -string -> Anything you want to rain!
+        -speed -> (OPTIONAL) The seconds you want to delay the print
+    Example:
+       -> rain \"   \" 0.008
+        This will print the an hexagon as fast at 0.008s per print.
+
+"
+exit 1
+}
+
+# If someone wants to know how to use this
+if [[ "$1" == "" ]] ; then
+  welcome
+fi
+
 #colors
 c1="\033[1;30m"
 c2="\033[1;31m"
