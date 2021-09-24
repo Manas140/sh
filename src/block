@@ -1,0 +1,37 @@
+#!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+help() { printf "${cg}block: print colored blocks
+Usage: block ${cb}value${cg}
+    ${cb}0:${cg} black 
+    ${cb}1:${cg} red 
+    ${cb}2:${cg} green 
+    ${cb}3:${cg} yellow 
+    ${cb}4:${cg} blue 
+    ${cb}5:${cg} magenta 
+    ${cb}6:${cg} cyan 
+    ${cb}7:${cg} white
+Example: block ${cb}01234567 76543210${cg}
+Extra Juice: block ${cb}1111105555 2020204000 3030303333 4000402000 5000501111${cg} >> file${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
+
+case $1 in 
+  "") printf "${cr}Error: No Value Provided\n" && exit 1;;
+  *h|*help) help;;
+esac
+
+for text in "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"; do
+  if [ "$text" = "" ]; then
+    break
+  else
+    chars=$(printf "$text" | grep -o .)
+    for char in $chars; do 
+      printf "\033[7;3%sm" "$char"
+      printf "  "
+    done
+  fi
+  printf "\n"
+done

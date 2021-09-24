@@ -1,4 +1,11 @@
 #!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+help() { printf "${cg}ext: extract file
+Usage: ext ${cb}file${cb}
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 case $1 in
   *.rar) rar x $1 ${1%.rar}/ ;;
   *.tar.bz2) mkdir -p ${1%.tar.bz2} && tar xjf $1 -C ${1%.tar.bz2}/ ;;
@@ -9,6 +16,6 @@ case $1 in
   *.tgz) mkdir -p ${1%.tgz} && tar xzf $1 -C ${1%.tgz}/ ;;
   *.zip) unzip $1 -d ${1%.zip}/ ;;
   *.7z) 7za e $1 -o${1%.7z}/ ;;
-  *.*) printf "'$1' cannot be extracted.\n" ;;
-  *) printf "Usage: ext compressed_file.xyz\n";;
+  *.*) printf "${cr} '$1' cannot be extracted.\n" ;;
+  *) help;;
 esac

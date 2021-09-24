@@ -1,0 +1,17 @@
+#!/bin/sh
+
+cr="\033[1;31m"
+cg="\033[1;32m"
+help() { printf "${cg}col: show color scheme
+Usage: col
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+case $1 in 
+  *h*)
+    help;;
+  *)
+  printf "\n"
+    for b in 0m 1m 2m 3m 4m 5m 6m 7m; do 
+      printf "\033[7;3$b  \033[1;0m "
+    done
+    printf "\n\n"
+esac
