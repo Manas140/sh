@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#just incase for non sh error
+printf "${cr}"
+#constants
+window_size="100x100"
+cr="\033[1;31m"
+cg="\033[1;32m"
+cb="\033[1;34m"
+
+help() { printf "${cg}cw: create wallpaper
+Usage: cw ${cb}hex_value${cg}
+Example: cw ${cb}#181818${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
+
+main() {
+  type 'convert' >/dev/null || printf "${cr}Error: Could not find 'convert', Make sure you have ImageMagick installed.\n"
+  convert -size "$window_size" -fill $col xc:$col -flatten wall.png
+  printf "${cg}Wall For $col Created\n"
+}
+
+case $1 in 
+  "") printf "${cr}Error: No Color Provided\n" && exit 1;;
+  \#*) col=$1;;
+  *) help;;
+esac
+
+main
