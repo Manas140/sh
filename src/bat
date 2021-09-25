@@ -1,0 +1,40 @@
+#!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+. /sys/class/power_supply/BAT1/uevent
+
+help() { printf "${cg}bat: battery info
+Usage: bat
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+
+main() {
+  case $POWER_SUPPLY_STATUS in
+    Charging) printf "${cg}Status: Charging\n";;
+    Discharging) printf "${cr}Status: Discharging\n";;
+  esac
+
+  if [ $POWER_SUPPLY_CAPACITY -gt 50 ]; then
+    printf "${cb}Left: $POWER_SUPPLY_CAPACITY\n";
+  elif [ $POWER_SUPPLY_CAPACITY -gt 25 ]; then
+    printf "${cg}Left: $POWER_SUPPLY_CAPACITY\n";
+  elif [ $POWER_SUPPLY_CAPACITY -lt 25 ]; then
+    printf "${cr}Left: $POWER_SUPPLY_CAPACITY\n";
+  fi
+
+  health=$(( $POWER_SUPPLY_CHARGE_FULL * 100 / $POWER_SUPPLY_CHARGE_FULL_DESIGN ))
+  if [ $health -gt 50 ]; then
+    printf "${cb}Health: $health\n";
+  elif [ $health -gt 25 ]; then
+    printf "${cg}Health: $health\n";
+  elif [ $health -lt 25 ]; then
+    printf "${cr}Health: $health\n";
+  fi
+}
+
+case $1 in
+  "") main;;
+  *) help;;
+esac
