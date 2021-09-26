@@ -11,15 +11,17 @@ Collection Of Sh Scripts I Made
 **Programs Included**
 
 ```
-  bat             battery info.
+  au              audio.
+  bat             battery.
   bl              backlight.
   block           print colored blocks.
+  ci              color image.
   col             show color scheme.
-  cw              create wall.
+  cw              create wallpaper.
   ext             extract file.
   rain            colorful rain of text.
+  random          generate random value or in a range.
   sing            print colored text.
-  trash           print colored text.
 ```
 
 **Install**

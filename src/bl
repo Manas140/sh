@@ -4,25 +4,28 @@ cr="\033[0;0m\033[1;31m"
 cg="\033[0;0m\033[1;32m"
 cb="\033[0;0m\033[1;34m"
 
-
-help() { printf "${cg}bl: backlight
-Usage: bl
+help() { printf "${cg}bl: backlight (currently x11 only)
+Usage: bl ${cb}[brightness]${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 
 main() {
   read -r current < /sys/class/backlight/intel_backlight/brightness
   read -r max < /sys/class/backlight/intel_backlight/max_brightness
   bl=$(( $current * 100 / $max ))
-  if [ $bl -gt 50 ]; then
-    printf "${cb}Brightness: $bl\n";
-  elif [ $bl -gt 25 ]; then
-    printf "${cg}Brightness: $bl\n";
-  elif [ $bl -gt 0 ]; then
+  if [ $bl -gt 60 ]; then
     printf "${cr}Brightness: $bl\n";
+  elif [ $bl -gt 30 ]; then
+    printf "${cg}Brightness: $bl\n";
+  else
+    printf "${cb}Brightness: $bl\n";
   fi
 }
 
 case $1 in
   "") main;;
-  *) help;;
+  *h*) help;;
+  *) if ! type xbacklight >/dev/null; then
+      printf "${cr}Error: Could not find 'xbacklight', Make sure you have xbacklight installed.\n" && exit 1;
+    fi
+    xbacklight -time 1000 -steps 1000 -set $1;;
 esac

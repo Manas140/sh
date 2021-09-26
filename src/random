@@ -1,0 +1,23 @@
+#!/bin/sh
+
+cr="\033[1;31m"
+cg="\033[1;32m"
+cb="\033[1;34m"
+
+help() { printf "${cg}random: generate random value or in a range
+Usage: random ${cb}[range] [val1] [val2]${cg}
+  ${cb}range:${cg} random value between ${cb}val1${cg} and ${cb}val2${cg}
+Example: random
+${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
+
+case $1 in 
+  r*) a=$(( $2 + $(date +%s%N) % $3 ))
+    while [ $a -gt $3 ]; do
+      a=$(( $2 + $(date +%s%N) % $3 ))
+    done
+    printf "$a\n";;
+  "") printf "$(date +%s%N)\n";;
+  *) help;;
+esac
+
+
