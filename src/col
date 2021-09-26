@@ -5,6 +5,7 @@ cg="\033[1;32m"
 help() { printf "${cg}col: show color scheme
 Usage: col
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+
 case $1 in 
   *h*)
     help;;

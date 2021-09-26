@@ -6,7 +6,7 @@ cb="\033[0;0m\033[1;34m"
 
 . /sys/class/power_supply/BAT1/uevent
 
-help() { printf "${cg}bat: battery info
+help() { printf "${cg}bat: battery
 Usage: bat
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 

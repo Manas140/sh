@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#just incase for non sh error
+printf "${cr}"
+#constants
+window_size="100x100"
+cr="\033[1;31m"
+cg="\033[1;32m"
+cb="\033[1;34m"
+file=image.png
+
+if ! type convert >/dev/null; then
+  printf "${cr}Error: Could not find 'convert', Make sure you have ImageMagick installed.\n" && exit 1;
+fi
+
+help() { printf "${cg}ci: color image
+Usage: ci ${cb}hex_value [output_file]${cg}
+Example: ci ${cb}#181818${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
+
+main() {
+  convert -size "$window_size" xc:$bg -flatten $file
+  printf "${cg}Image For $bg Created\n"
+}
+
+case $1 in 
+  "") printf "${cr}Error: No Color Provided\n" && exit 1;;
+  \#*) bg=$1;;
+  *) help;;
+esac
+
+case $2 in 
+  *.*) file="$2";;
+esac
+
+main

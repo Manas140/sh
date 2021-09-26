@@ -3,26 +3,66 @@
 #just incase for non sh error
 printf "${cr}"
 #constants
-window_size="100x100"
+
 cr="\033[1;31m"
 cg="\033[1;32m"
 cb="\033[1;34m"
+height=720
+width=1280
+gap=50
+bg="#d8d8d8"
+c1="#AB4642"
+c2="#A1B56C"
+c3="#7CAFC2"
+file="wall.png"
+
+if ! type convert >/dev/null; then
+  printf "${cr}Error: Could not find 'convert', Make sure you have ImageMagick installed.\n" && exit 1;
+fi
 
 help() { printf "${cg}cw: create wallpaper
-Usage: cw ${cb}hex_value${cg}
-Example: cw ${cb}#181818${cg}
+  Usage: cw ${cb}[config_file] [output_file]${cg}(one included in test directory)
 ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 
+random() {
+  a=$(( $1 + $(date +%s%N) % $2 ))
+  while [ $a -gt $2 ]; do
+    a=$(( $1 + $(date +%s%N) % $2 ))
+  done
+  printf "$a\n"
+}
+
+rr1ec() {
+  xs=$gap
+  xe=$(( $width - $gap )) 
+  ys=$gap
+  ye=$(( $height - $gap )) 
+  printf "$xs $ys $xe $ye"
+}
+rrec() {
+  xs=$(random $gap $(( $width - $gap )) )
+  xe=$(random $gap $(( $width - $gap )) )
+  ys=$(random $gap $(( $height - $gap)) )
+  ye=$(random $gap $(( $height - $gap)) )
+  printf "$xs $ys $xe $ye\n"
+}
+
 main() {
-  type 'convert' >/dev/null || printf "${cr}Error: Could not find 'convert', Make sure you have ImageMagick installed.\n"
-  convert -size "$window_size" -fill $col xc:$col -flatten wall.png
-  printf "${cg}Wall For $col Created\n"
+  window_size=$(printf "$width""x""$height")  
+  convert -size "$window_size" xc:$bg -fill $c1 -draw "rectangle $(rrec)" -fill $c2 -draw "rectangle $(rrec)" -fill $c3 -draw "rectangle $(rrec)" -flatten $file
+  printf "${cg}Wall Generated\n"
 }
 
 case $1 in 
-  "") printf "${cr}Error: No Color Provided\n" && exit 1;;
-  \#*) col=$1;;
-  *) help;;
+  "") printf "${cr}Error: No File Provided, Using Defaults\n";;
+  *) if [ -f $1 ]; then
+      . $(pwd)/$1
+    else
+      help
+    fi;;
 esac
 
+case $2 in
+  *.*) file=$2;;
+esac
 main
