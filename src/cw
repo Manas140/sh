@@ -9,8 +9,9 @@ cg="\033[1;32m"
 cb="\033[1;34m"
 height=720
 width=1280
-gap=50
-bg="#d8d8d8"
+ygap=72
+xgap=128
+bg="#181818"
 c1="#AB4642"
 c2="#A1B56C"
 c3="#7CAFC2"
@@ -32,18 +33,11 @@ random() {
   printf "$a\n"
 }
 
-rr1ec() {
-  xs=$gap
-  xe=$(( $width - $gap )) 
-  ys=$gap
-  ye=$(( $height - $gap )) 
-  printf "$xs $ys $xe $ye"
-}
 rrec() {
-  xs=$(random $gap $(( $width - $gap )) )
-  xe=$(random $gap $(( $width - $gap )) )
-  ys=$(random $gap $(( $height - $gap)) )
-  ye=$(random $gap $(( $height - $gap)) )
+  xs=$(random $xgap $(( $width - $xgap )) )
+  xe=$(random $xgap $(( $width - $xgap )) )
+  ys=$(random $ygap $(( $height - $ygap)) )
+  ye=$(random $ygap $(( $height - $ygap)) )
   printf "$xs $ys $xe $ye\n"
 }
 
