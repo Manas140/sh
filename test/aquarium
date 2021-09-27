@@ -1,0 +1,8 @@
+height=720
+width=1280
+ygap=$(( $height / 3 ))
+xgap=$(( $width / 3 ))
+bg="#20202A"
+c1="#EBB9B9"
+c2="#B1DBA4"
+c3="#A3B8EF"
