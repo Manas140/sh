@@ -1,0 +1,28 @@
+#!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+if ! type redshift >/dev/null; then
+  printf "${cr}Error: Could not find 'redshift', Make sure you have redshift installed.\n" && exit 1;
+fi
+
+help() { printf "${cg}nl: night light (currently x11 only)
+Usage: nl ${cb}[s|d] [warmth]${cg}
+  ${cb}s:${cg} set warmth between 1000 and 25000
+  ${cb}d:${cg} disable nl
+Example: nl ${cb}s 4000${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+
+printf "${cr}"
+case $1 in
+  *s*) if [ $2 -ge 1000 ] && [ $2 -le 25000 ]; then
+      redshift -x
+      redshift -O $2\k
+    else
+      printf "${cr}Error: Specify A Value Between 1000 and 25000\n"
+    fi;;
+  *d*) redshift -x;;
+  *) help;;
+esac

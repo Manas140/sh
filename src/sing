@@ -6,7 +6,6 @@ cb="\033[1;34m"
 
 help() { printf "${cg}sing: print colored text
 Example: sing ${cb}hello${cg}
-Extra Juice: block ${cb}\"hello world\"${cg} >> file${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 
 case $1 in 

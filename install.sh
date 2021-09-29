@@ -7,11 +7,19 @@ cb="\033[1;34m"
 printf "${cr}"
 case $1 in 
   u) for script in $(ls src/); do 
-    sudo rm -r /usr/local/bin/$script && printf "${cg}[*] $script Uninstalled\n" || printf "${cr}[-] There Was An Error While Uninstalling $script\n"; 
-  done;;
+    if sudo rm /usr/local/bin/$script 2>/dev/null; then
+      printf "${cg}[*] $script Uninstalled\n"
+    else
+      printf "${cr}[-] There Was An Error While Uninstalling $script\n"
+    fi
+    done;;
   i) for script in $(ls src/); do
-    sudo cp src/$script /usr/local/bin/$script && printf "${cg}[*] $script Installed\n" || printf "${cr}[-] There Was An Error While Installing $script\n";
-  done;;
+    if sudo cp src/$script /usr/local/bin/$script 2>/dev/null; then
+      printf "${cg}[*] $script Installed\n" 
+    else
+      printf "${cr}[-] There Was An Error While Installing $script\n"
+    fi
+    done;;
   up) sh install.sh u
     printf "${cr}"
     git pull && sh install.sh i || printf "${cr}Error: Please Resolve Git Errors\n";;

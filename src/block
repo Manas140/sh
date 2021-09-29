@@ -5,7 +5,7 @@ cg="\033[0;0m\033[1;32m"
 cb="\033[0;0m\033[1;34m"
 
 help() { printf "${cg}block: print colored blocks
-Usage: block ${cb}value${cg}
+Usage: block ${cb}[conf_file|val]${cg}(conf_file included in test dir)
   ${cb}0:${cg} black 
   ${cb}1:${cg} red 
   ${cb}2:${cg} green 
@@ -14,16 +14,20 @@ Usage: block ${cb}value${cg}
   ${cb}5:${cg} magenta 
   ${cb}6:${cg} cyan 
   ${cb}7:${cg} white
-Example: block ${cb}01234567 76543210${cg}
-Extra Juice: block ${cb}1111105555 2020204000 3030303333 4000402000 5000501111${cg} >> file${cg}
+Example: block ${cb}111105555 2020204000 3030303333 4000402000 5000501111${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 
 case $1 in 
-  "") printf "${cr}Error: No Value Provided\n" && exit 1;;
+  "") printf "${cr}Error: No File or Value Provided\n" && exit 1;;
   *h|*help) help;;
 esac
 
-for text in "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"; do
+if [ -f $1 ]; then 
+  read=$(cat $1)
+else
+  read="$@"
+fi
+for text in $read; do
   case $text in 
     "") break;;
     *) chars=$(printf "$text" | grep -o .)
@@ -34,3 +38,4 @@ for text in "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"; do
   esac
   printf "\n"
 done
+printf "\033[0;0m\n"

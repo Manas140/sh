@@ -1,8 +1,6 @@
 #!/bin/sh
 
-#just incase for non sh error
 printf "${cr}"
-#constants
 window_size="100x100"
 cr="\033[1;31m"
 cg="\033[1;32m"

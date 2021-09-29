@@ -19,5 +19,3 @@ case $1 in
   "") printf "$(date +%s%N)\n";;
   *) help;;
 esac
-
-
