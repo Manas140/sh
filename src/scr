@@ -1,0 +1,29 @@
+#!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+if ! type ffmpeg >/dev/null; then
+  printf "${cr}Error: Could not find 'ffmpeg', Make sure you have ffmpeg installed.\n" && exit 1;
+fi
+
+help() { printf "${cg}scr: screen shot/record
+Usage: scr ${cb}[s|r] output_file.xyz${cg}
+  ${cb}s:${cg} shot
+  ${cb}r:${cg} record
+Example: scr ${cb}r out.mp4 ${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+cf() {
+  case $1 in 
+    "") printf "${cr}Error: No Output_file Specified\n" && exit 1;;
+    *.*) file=$1;;
+    *) printf "${cr}Error: File Format Not Supported\n" && exit 1;;
+  esac
+}
+
+case $1 in
+  *s*) cf $2 && import -window root $file;;
+  *r*) cf $2 && ffmpeg -framerate 60 -f x11grab -i :0.0 -pix_fmt yuv420p -c:v libx264 -preset ultrafast -y -v error -stats $file;;
+  *) help;;
+esac

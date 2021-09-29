@@ -12,7 +12,7 @@ help() { printf "${cg}au: audio
 Usage: au ${cb}[s|m] [volume]${cg}
   ${cb}s:${cg} set volume
   ${cb}m:${cg} mute toggle
-Example: au ${cb}set 40${cg}
+Example: au ${cb}s 40${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 
 main() { 
