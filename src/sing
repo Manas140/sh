@@ -9,7 +9,7 @@ Example: sing ${cb}hello${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 
 case $1 in 
-  "") printf "${cr}Error: No Value Provided\n" && exit 1;;
+  "") printf "${cr}Error: No Text Provided\n" && exit 1;;
   *h|*help) help;;
 esac
 

@@ -11,8 +11,11 @@ case $1 in
     help;;
   *)
   printf "\n"
-    for b in 0m 1m 2m 3m 4m 5m 6m 7m; do 
-      printf "\033[7;3$b  \033[1;0m "
+    for a in 3 9; do
+      for b in 0 1 2 3 4 5 6 7; do 
+        printf "\033[7;$a%sm    \033[1;0m " "$b"
+      done
+      printf "\n"
     done
-    printf "\n\n"
+    printf "\n"
 esac

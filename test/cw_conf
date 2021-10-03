@@ -1,7 +1,5 @@
 xgap=426
 ygap=240
-ygap=240
-ygap=240
-ygap=240
-ygap=240
+colors="#A1B56C #181818 #D8D8D8"
 shape="circle"
+bg="#D8D8D8"
