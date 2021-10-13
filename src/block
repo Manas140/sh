@@ -20,17 +20,17 @@ ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 case $1 in 
   "") printf "${cr}Error: No File or Value Provided\n" && exit 1;;
   *h|*help) help;;
+  *) if [ -f $1 ]; then 
+    read="$(cat $1)"
+  else
+    read="$@"
+  fi;;
 esac
 
-if [ -f $1 ]; then 
-  read=$(cat $1)
-else
-  read="$@"
-fi
 for text in $read; do
   case $text in 
     "") break;;
-    *) chars=$(printf "$text" | grep -o .)
+    *) chars=$(printf "$text" | grep -o [0-9] | grep -o . )
       for char in $chars; do 
         printf "\033[7;3%sm" "$char"
         printf "  "
