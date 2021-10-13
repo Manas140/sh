@@ -8,10 +8,8 @@ cb="\033[1;34m"
 #default config variables
 height=720
 width=1280
-ygap=100
-xgap=100
 bg="#181818"
-colors="#AB4642 #A1B56C #7CAFC2"
+colors="#181818 #d8d8d8 #181818 #d8d8d8"
 shape="circle"
 file="wall.png"
 
@@ -46,32 +44,11 @@ main() {
   #create a shape with random position and size for each color
   for color in $colors; do
     case $shape in 
-      circle)
-        #gaps need work
-        xs=$(random $xgap $(( $width - $xgap)) )
-        ys=$(random $ygap $(( $height - $ygap)) )
-        if [ $xs -gt $(($width / 2)) ]; then
-          xe=$(random $xs $(($width - $xgap)))
-        else
-          xe=$(random $xgap $xs)
-        fi
-        if [ $ys -gt $(($height / 2)) ]; then
-          ye=$(random $ys $(($height - $ygap)))
-        else
-          ye=$(random $ygap $ys)
-        fi
-        if [ $ye -gt $xe ]; then
-          xe=$xe
-          ye=$xe
-        else
-          xe=$ye
-          ye=$ye
-        fi;;
-      rectangle)
-        xs=$(random $xgap $width)
-        ys=$(random $ygap $height)
-        xe=$(random $xgap $width)
-        ye=$(random $ygap $height);;
+      rectangle|circle)
+        xs=$(random 0 $width)
+        ys=$(random 0 $height)
+        xe=$(random 0 $width)
+        ye=$(random 0 $height);;
       *) printf "${cr}Error: Shape Not Supported\n"; exit 1;;
     esac
     #save it in a variable 'draw' which will be used later as a argument

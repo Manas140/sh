@@ -15,19 +15,19 @@ file=$2
 
 case $1 in
   py) shift; shift
-    printf "${cg}run: python $file $@\n"
+    printf "${cg}run: python $file $@\n\n"
     python $file $@;;
   c) shift; shift
-    printf "${cg}run: gcc $file -o out && ./out $@\n"
+    printf "${cg}run: gcc $file -o out && ./out $@\n\n"
     gcc $file -o out && ./out $@;;
   cpp) shift; shift
-    printf "${cg}run: gcc $file -o out && ./out $@\n"
+    printf "${cg}run: gcc $file -o out && ./out $@\n\n"
     gcc $file -o out && ./out $@;;
   lua) shift; shift
-    printf "${cg}run: lua $file $@\n"
+    printf "${cg}run: lua $file $@\n\n"
     lua $file $@;;
   sh) shift; shift
-    printf "${cg}run: chmod +x $file && ./$file $@\n"
+    printf "${cg}run: chmod +x $file && ./$file $@\n\n"
     chmod +x $file && ./$file $@;;
   *) help;;
 esac

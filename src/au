@@ -9,10 +9,10 @@ if ! type pulsemixer >/dev/null; then
 fi
 
 help() { printf "${cg}au: audio
-Usage: au ${cb}[vol|m] [volume]${cg}
-  ${cb}vol:${cg} set volume
+Usage: au ${cb}[vol|m]${cg}
+  ${cb}vol:${cg} volume value between 0-150
   ${cb}m:${cg} mute toggle
-Example: au ${cb}s 40${cg}
+Example: au ${cb}40${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 
 main() { 
