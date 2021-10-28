@@ -14,7 +14,7 @@ Not A Complete Preview
   bt              battery.
   bl              backlight.
   block           print colored blocks.
-  calc            simple calculater.
+  calc            simple calculator.
   ci              color image.
   cl              show color scheme.
   cw              create wallpaper.
