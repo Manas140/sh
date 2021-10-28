@@ -14,7 +14,7 @@ Usage: block ${cb}[conf_file|val]${cg}(conf_file included in test dir)
   ${cb}5:${cg} magenta 
   ${cb}6:${cg} cyan 
   ${cb}7:${cg} white
-Example: block ${cb}111105555 2020204000 3030303333 4000402000 5000501111${cg}
+Example: block ${cb}1111105555 2020204000 3030303333 4000402000 5000501111${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
 
 case $1 in 

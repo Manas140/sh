@@ -6,11 +6,11 @@ cb="\033[0;0m\033[1;34m"
 
 help() { printf "${cg}calc: simple calculator
 Usage: calc ${cb}"question"
-${cg}Operators:${cb} \"*\" + - / %% 
-${cg}Example:${cb} 1 \"*\" 2 + 3 - 1 / 2 %% 3 
+${cg}Operators:${cb} \"* + - / %%\"
+${cg}Example:${cb} \"1 * 2 + 3 - 1 / 2 %% 3\" 
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 
-case "$@" in 
+case "$1" in 
   *1*|*2*|*3*|*4*|*5*|*6*|*7*|*8*|*9*|*0*)
     if ! printf "$(( $@ ))\n" >/dev/null; then
       printf "${cr}Error: While Processing Calculation\n" && exit 1;

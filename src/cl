@@ -2,8 +2,8 @@
 
 cr="\033[1;31m"
 cg="\033[1;32m"
-help() { printf "${cg}col: show color scheme
-Usage: col
+help() { printf "${cg}cl: show color scheme
+Usage: cl
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
 
 case $1 in 
