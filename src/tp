@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Show top 21 Commands used (thanks totoro)
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+# default val
+lm=21
+
+toppy() {
+    HISTFILE=~/.bash_history
+    set -o history
+    w=$(history)
+    printf "%bs" "$w" | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n $lm
+}
+
+help() { printf "${cg}tp
+Usage: tp ${cb}[h|<number>]${cg}
+  ${cb}h:${cg} display this help option
+Example: tp ${cb}40${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+
+case $1 in
+  "") toppy ;;
+  *h*) help;;
+  *) if [ $1 -eq $1 ] 2>/dev/null; then
+    lm=$1 ; toppy
+  else
+    help
+  fi;;
+esac
