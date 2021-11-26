@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+#script constants
+name="pluck"
+image="/tmp/screen.png"
+mouse_id=$(xinput --list | grep -i -m 1 'mouse' | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
+touchpad_id=$(xinput --list | grep -i -m 1 'touchpad' | grep -o 'id=[0-9]\+' | grep -o '[0-9]\+')
+icon="/tmp/icon.png"
+help_text="Usage: pluck -rgb|--rgb              copy rgb value instead of hex."
+
+#functions
+main() {
+    #on click variables.
+    mousex=$(xdotool getmouselocation | awk '{ print $1 }' | awk -F: '{ print $2}')
+    mousey=$(xdotool getmouselocation | awk '{ print $2 }' | awk -F: '{ print $2}')
+
+    #check dependencies.
+    type -p 'convert' &>/dev/null || printf "error: Could not find 'convert', Make sure you have ImageMagick installed.\n"
+    type -p 'xclip' &>/dev/null || printf "error: Could not find 'xclip', Make sure you have xclip installed.\n"
+    type -p 'xdotool' &>/dev/null || printf "error: Could not find 'xdotool', Make sure you have xdotool installed.\n"
+
+    #get color value of pixel from the taken screenshot and the x,y cordinates of mouse.
+    import -window root $image
+    rgb=$(convert $image -format "%[fx:int(255*p{$mousex,$mousey}.r)],%[fx:int(255*p{$mousex,$mousey}.g)],%[fx:int(255*p{$mousex,$mousey}.b)]" info:)
+    hex=$(convert $image -crop 1x1+$mousex+$mousey -depth 8 txt: | tail -n +2 | awk '{ print $3 }')
+    convert -size 50x50 xc:"$hex" "$icon"
+
+    #copy rgb or hex according to the arguments
+    case "$color_type" in
+        -rgb|--rgb|rgb) printf "$rgb\n" | xclip -sel c
+            notify-send "$name" "$rgb" --icon="$icon"
+        ;;
+        *) printf "$hex\n" | xclip -sel c
+            notify-send "$name" "$hex" --icon="$icon"
+        ;;
+    esac
+    exit 1
+}
+
+#arguments
+while true; do
+    case "$1" in
+        *rgb*) color_type="$1"
+        ;;
+        *h*) printf "$help_text\n"
+            exit
+        ;;
+        *) break
+    esac
+    shift
+done
+
+#get click
+while true; do
+    if [[ $touchpad_id -gt 0 && $mouse_id -gt 0 ]]; then
+        xinput query-state $touchpad_id | grep -o 'down' > /dev/null && main || xinput query-state $mouse_id | grep -o 'down' > /dev/null && main
+    elif [ $touchpad_id -gt 0 ]; then
+        xinput query-state $touchpad_id | grep -o 'down' > /dev/null && main
+    elif [ $mouse_id -gt 0 ]; then
+        xinput query-state $mouse_id | grep -o 'down' > /dev/null && main
+    fi
+done
