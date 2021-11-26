@@ -24,7 +24,6 @@ Not A Complete Preview
   random          generate random value or in a range.
   scr             screen shot/record.
   sing            print colored text.
-  pk              color picker
   tp              prints top commands
 ```
 
