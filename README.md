@@ -1,5 +1,5 @@
 # sh
-Collection Of My Sh Scripts. 
+Collection Of My Sh Scripts.
 
 # Preview
 Not A Complete Preview
@@ -22,8 +22,9 @@ Not A Complete Preview
   nl              night light.
   rain            colorful rain of text.
   random          generate random value or in a range.
-  scr             screen shot/record. 
+  scr             screen shot/record.
   sing            print colored text.
+  tp              prints top commands
 ```
 
 # Install
@@ -36,11 +37,11 @@ Not A Complete Preview
 This is suggested as there might be cases where some scripts are deleted
 
 ```
-  sudo ./install.sh up 
+  sudo ./install.sh up
 ```
 
 # Uninstall
-``` 
+```
   sudo ./install.sh u
 ```
 
