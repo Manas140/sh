@@ -4,18 +4,24 @@ cr="\033[0;0m\033[1;31m"
 cg="\033[0;0m\033[1;32m"
 cb="\033[0;0m\033[1;34m"
 help() { printf "${cg}ext: extract file
-Usage: ext ${cb}file${cb}
+Usage: ext ${cb}file.xyz${cb}
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
-case $1 in
-  *.rar) unar x $1 ;;
-  *.tar.bz2) tar xjf $1 ;;
-  *.tar.gz) tar xzf $1 ;;
-  *.tar.xz) tar xf  $1 ;;
-  *.tar) tar xf  $1 ;;
-  *.tbz2) tar xjf $1 ;;
-  *.tgz) tar xzf $1 ;;
-  *.zip) unzip $1 ;;
-  *.7z) 7za e $1 ;;
-  *.*) printf "${cr} '$1' cannot be extracted.\n" ;;
+
+if [ -f "$@" ]; then
+  dir="${@%.*}/"
+  mkdir "$dir"
+fi
+
+case "$@" in
+  *.rar) unar x "$@" -o "$dir";;
+  *.tar.bz2) tar xjf "$@" -C "$dir";;
+  *.tar.gz) tar xzf "$@" -C "$dir";;
+  *.tar.xz) tar xf "$@" -C "$dir";;
+  *.tar) tar xf "$@" -C "$dir";;
+  *.tbz2) tar xjf "$@" -C "$dir";;
+  *.tgz) tar xzf "$@" -C "$dir";;
+  *.zip) unzip "$@" -d "$dir";;
+  *.7z) 7za e "$@" -o "$dir";;
+  *.*) printf "${cr} '$@' Unsupported compression format.\n";;
   *) help;;
 esac
