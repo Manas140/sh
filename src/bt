@@ -4,7 +4,7 @@ cr="\033[0;0m\033[1;31m"
 cg="\033[0;0m\033[1;32m"
 cb="\033[0;0m\033[1;34m"
 
-. /sys/class/power_supply/BAT1/uevent
+. /sys/class/power_supply/BAT*/uevent
 
 help() { printf "${cg}bt: battery
 Usage: bt

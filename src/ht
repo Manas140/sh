@@ -1,0 +1,43 @@
+#!/bin/sh
+
+cr="\033[1;31m"
+cg="\033[1;32m"
+cb="\033[1;34m"
+
+if ! type convert >/dev/null; then
+  printf "${cr}Error: Could not find 'convert', Make sure you have ImageMagick installed.\n" && exit 1;
+fi
+
+help() { printf "${cg}ht: hex tool
+Usage: ht ${cb}[l|d] #hex_value intensity%%${cg}
+Example: ht ${cb}l #181818 10${cg}
+${cr}Report issues at: https://github.com/manas140/sh/\n" && exit; }
+
+case $1 in 
+  *l*|*d*) continue;;
+  *) help;;
+esac
+
+case $2 in
+  \#*) continue;;
+  *) printf "${cr}Error: '$2' Not a hex value\n" && exit 1;;
+esac
+
+case $3 in
+  "") printf "${cr}Error: No Intensity value provided\n" && exit 1;;
+esac
+
+case $1 in 
+  *l*) out=$(convert -size "1x1" xc:$2 -fill white -colorize $3 -depth 8 txt:);;
+  *d*) out=$(convert -size "1x1" xc:$2 -fill black -colorize $3 -depth 8 txt:);;
+  *) help;;
+esac
+
+for a in $out; do
+  case $a in
+    \#*) hex="${cg}HEX: $a\n";;
+    \(*\)) rgb="${cg}RGB: $a\n";;
+  esac 
+done
+
+printf "$hex$rgb"

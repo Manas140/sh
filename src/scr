@@ -4,33 +4,44 @@ cr="\033[0;0m\033[1;31m"
 cg="\033[0;0m\033[1;32m"
 cb="\033[0;0m\033[1;34m"
 
-if ! type ffmpeg >/dev/null; then
-  printf "${cr}Error: Could not find 'ffmpeg', Make sure you have ffmpeg installed.\n" && exit 1;
-fi
-if ! type notify-send >/dev/null; then
-  printf "${cr}Error: Could not find 'ffmpeg', Make sure you have ffmpeg installed.\n" && exit 1;
-fi
-
 help() { printf "${cg}scr: screen shot/record
 Usage: scr ${cb}[s|r] output_file.xyz${cg}
   ${cb}s:${cg} shot
   ${cb}r:${cg} record
 Example: scr ${cb}r out.mp4 ${cg}
 ${cr}Report issues at: https://github.com/manas140/sh/\n"; }
-cf() {
-  case $1 in 
-    "") printf "${cr}Error: No Output_file Specified\n" && exit 1;;
-    *.*) file=$1;;
-    *) printf "${cr}Error: File Format Not Supported\n" && exit 1;;
+
+ss() {
+  case $2 in
+    *.*) file=$2;;
+    *) printf "${cr}Error: No valid output file provided\n" && exit 1;;
   esac
+  if ! type maim >/dev/null; then
+    printf "${cr}Error: Could not find 'maim', Make sure you have maim installed.\n" && exit 1
+  fi
+  maim -usb 5 $file >/dev/null || exit 1
+
+  if type notify-send >/dev/null; then
+    notify-send "Src" "Saved at $(pwd)/$2" -i $(pwd)/$file
+  else
+    printf "${cg} ScreenShot saved at $(pwd)/$file\n"
+  fi
+
+  if type xclip >/dev/null; then
+    xclip -sel c -t image/png $(pwd)/$file
+  fi
+}
+
+rec() {
+  if type ffmpeg >/dev/null; then
+    ffmpeg -framerate 60 -f x11grab -i :0.0 -pix_fmt yuv420p -c:v libx264 -preset ultrafast -y -v error -stats "$file"
+  else
+    printf "${cr}Error: Could not find 'ffmpeg', Make sure you have ffmpeg installed.\n" && exit 1;
+  fi
 }
 
 case $1 in
-  *s*) cf $2 && import -window root $file
-    if type xclip >/dev/null; then
-      xclip -sel clipboard $(pwd)/$file
-      notify-send -i $(pwd)/$file Scr "ScreenShot Copied To Clipboard" 
-    fi;;
-  *r*) cf $2 && notify-send Scr "Screen Recording Started"; ffmpeg -framerate 60 -f x11grab -i :0.0 -pix_fmt yuv420p -c:v libx264 -preset ultrafast -y -v error -stats $file;;
+  *s*) ss;;
+  *r*) rec;;
   *) help;;
 esac

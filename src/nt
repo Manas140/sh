@@ -1,0 +1,27 @@
+#!/bin/sh
+
+cr="\033[0;0m\033[1;31m"
+cg="\033[0;0m\033[1;32m"
+cb="\033[0;0m\033[1;34m"
+
+help() { printf "${cg}nl: Network
+Usage: nl
+${cr}Report issues at: https://github.com/manas140/sh/\n"; }
+
+printf "${cr}"
+main() {
+  path=$(ls -d /sys/class/net/w*)
+  read -r ADDRESS < $path/address
+  read -r STATUS < $path/operstate
+  case $STATUS in 
+    up) printf "${cg}Status: Up\n";;
+    down) printf "${cr}Status: Down\n";;
+  esac
+  printf "${cg}Interface: ${path##/sys/class/net/}\n"
+  printf "${cg}Address: $ADDRESS\n"
+}
+
+case $1 in 
+  *h*) help;;
+  *) main;;
+esac
